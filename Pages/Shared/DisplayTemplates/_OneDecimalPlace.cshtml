@@ -1,0 +1,5 @@
+﻿@model decimal?
+@if (Model.HasValue)
+{
+    <text>@String.Format("{0:0.0}", Model)</text>
+}

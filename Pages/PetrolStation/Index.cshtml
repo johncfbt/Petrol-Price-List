@@ -1,0 +1,107 @@
+﻿@page
+@model PetrolPrice.Pages.PetrolStation.IndexModel
+
+@{
+    ViewData["Title"] = "Petrol Station Lists";
+}
+<h4>Melbourne Fuel Prices Statistics</h4>
+<div class="container">
+    <div class="row">
+        <div class="col stats-box">
+            <div class="stats-box-inner">
+                <h3 class="box-header">Average Fuel Price</h3>
+                <div class="box-body">
+                    <span class="average-price">$@Model.MainDigits<sup>@Model.LastDigit</sup></span>
+                </div>
+            </div>
+        </div>
+        <div class="col stats-box justify-content-start">
+            <div class="stats-box-inner">
+                <h3 class="box-header">Fuel Stations on watch</h3>
+                <div class="box-body">
+                    <span class="average-price">@Model.Count</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<h4 class="title-middle">Melbourne Fuel Station List - Ranked by Price</h4>
+<div class="form-custom">
+<form asp-page="./Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name:
+            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+            <input type="submit" value="Search" class="btn btn-dark" />
+            <a asp-page="./Index" class="btn btn-dark ">Back to full List</a>
+            <a asp-page="Create" class="btn btn-dark">Create</a>
+        </p>
+    </div>
+</form>
+</div>
+
+<table class="table">
+    <thead class="table-header">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PetrolStations[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PetrolStations[0].Address)
+            </th>
+            <th class="text-center">
+                <a asp-page="./Index" asp-route-sortOrder="@Model.PriceSort"
+                   asp-route-currentFilter="@Model.CurrentFilter" class="link-light">
+                @Html.DisplayNameFor(model => model.PetrolStations[0].Price)
+                </a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PetrolStations[0].PetrolPriceUser)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="table-body">
+@foreach (var item in Model.PetrolStations) {
+        <tr >
+            <td >
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.Price, "_OneDecimalPlace")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PetrolPriceUser.UserName)
+            </td>
+            <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id" class="link-dark">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id" class="link-dark">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id" class="link-dark">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+@{
+    var prevDisabled = !Model.PetrolStations.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.PetrolStations.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./Index"
+   asp-route-sortOrder="@Model.CurrentSort"
+   asp-route-pageIndex="@(Model.PetrolStations.PageIndex - 1)"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-dark link-light @prevDisabled">
+    Previous
+</a>
+<a asp-page="./Index"
+   asp-route-sortOrder="@Model.CurrentSort"
+   asp-route-pageIndex="@(Model.PetrolStations.PageIndex + 1)"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-dark link-light @nextDisabled">
+    Next
+</a>

@@ -1,0 +1,43 @@
+﻿@page
+@model PetrolPrice.Pages.PetrolStation.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>PetrolStation</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PetrolStation.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PetrolStation.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PetrolStation.Address)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PetrolStation.Address)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PetrolStation.Price)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PetrolStation.Price, "_OneDecimalPlace")
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PetrolStation.PetrolPriceUser)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PetrolStation.PetrolPriceUser.UserName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.PetrolStation?.Id" class="link-dark">Edit</a> |
+    <a asp-page="./Index" class="link-dark">Back to List</a>
+</div>
