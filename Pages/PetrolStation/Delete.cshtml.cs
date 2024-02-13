@@ -13,7 +13,6 @@ namespace PetrolPrice.Pages.PetrolStation
     public class DeleteModel : PageModel
     {
         private readonly PetrolPrice.Data.PetrolPriceContext _context;
-
         public DeleteModel(PetrolPrice.Data.PetrolPriceContext context)
         {
             _context = context;

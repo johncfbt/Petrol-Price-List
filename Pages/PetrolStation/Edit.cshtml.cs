@@ -43,6 +43,7 @@ namespace PetrolPrice.Pages.PetrolStation
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see https://aka.ms/RazorPagesCRUD.
+        /*
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -69,7 +70,51 @@ namespace PetrolPrice.Pages.PetrolStation
             }
 
             return RedirectToPage("./Index");
+        }*/
+
+        public async Task<IActionResult> OnPostAsync(int? id)
+        {
+            if (id == null)
+            {
+                return Page();
+            }
+
+            var petrolStationToUpdate = await _context.PetrolStation.FirstOrDefaultAsync(m => m.Id == id);
+
+            if (petrolStationToUpdate == null)
+            {
+                return Page();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            // Update the properties of petrolStationToUpdate with the values from PetrolStation
+            petrolStationToUpdate.Name = PetrolStation.Name;
+            petrolStationToUpdate.Address = PetrolStation.Address;
+            petrolStationToUpdate.Price = PetrolStation.Price;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!PetrolStationExists(PetrolStation.Id))
+                {
+                    return Page();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return RedirectToPage("./Index");
         }
+
 
         private bool PetrolStationExists(int id)
         {
